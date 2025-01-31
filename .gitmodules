@@ -1,4 +1,4 @@
 [submodule "app"]
 	path = app
-	url = https://gitlab.brin.go.id/brinrockstar/fellowship.git
+	url = https://gitlab.brin.go.id/brinrockstar/dbr_brin.git
 	branch = dev-kohar
