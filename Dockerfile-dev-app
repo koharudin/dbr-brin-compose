@@ -1,0 +1,36 @@
+FROM php:7.4-apache
+WORKDIR /var/www
+
+
+# Install system dependencies (curl, git, unzip, libpng, libjpeg, libfreetype for GD)
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    unzip \
+    libzip-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP Zip extension
+RUN docker-php-ext-install zip
+
+# Install PHP GD extension
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd
+
+# Install PostgreSQL client (php-pgsql)
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
+
+# Download and install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN mkdir -p /var/www/bootstrap/cache
+RUN mkdir -p /var/www/storage/app /var/www/storage/logs /var/www/storage/framework/cache/data /var/www/storage/framework/sessions /var/www/storage/framework/views
+
+RUN chown -R www-data:www-data /var/www/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/storage
+USER www-data
