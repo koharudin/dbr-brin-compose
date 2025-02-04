@@ -28,6 +28,9 @@ RUN apt-get update && apt-get install -y \
 # Download and install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Enable mod_rewrite module
+RUN a2enmod rewrite
+
 RUN mkdir -p /var/www/bootstrap/cache
 RUN mkdir -p /var/www/storage/app /var/www/storage/logs /var/www/storage/framework/cache/data /var/www/storage/framework/sessions /var/www/storage/framework/views
 
