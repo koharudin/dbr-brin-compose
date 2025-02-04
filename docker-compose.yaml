@@ -1,5 +1,5 @@
 services:
-  mantel:
+  dbr:
     build:
       context: .
       dockerfile: Dockerfile-dev-app
